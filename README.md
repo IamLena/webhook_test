@@ -8,5 +8,3 @@ https://docs.github.com/en/developers/webhooks-and-events/webhooks/about-webhook
 used ```gem install sinatra-contrib``` to solve require: cannot load such file -- sinatra (LoadError)
 
 both server and ngrok should be launched
-
-lalala - new line
