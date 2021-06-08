@@ -10,3 +10,7 @@ used ```gem install sinatra-contrib``` to solve require: cannot load such file -
 both server and ngrok should be launched
 
 lalala - new line
+
+
+docker build -t pyserver .
+docker run -p 127.0.0.1:80:4567 pyserver

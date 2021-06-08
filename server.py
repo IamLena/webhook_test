@@ -13,6 +13,17 @@ class S(BaseHTTPRequestHandler):
 	def do_HEAD(self):
 		self._set_headers()
 
+	def _html(self, message):
+		"""This just generates an HTML document that includes `message`
+		in the body. Override, or re-write this do do more interesting stuff.
+		"""
+		content = f"<html><body><h1>{message}</h1></body></html>"
+		return content.encode("utf8")  # NOTE: must return a bytes object!
+
+	def do_GET(self):
+		self._set_headers()
+		self.wfile.write(self._html("hi!"))
+
 	def do_POST(self):
 		content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
 		message = json.loads(self.rfile.read(content_length)) ## it is a dictionary
@@ -22,7 +33,8 @@ class S(BaseHTTPRequestHandler):
 		to_branch = message["pull_request"]["base"]["ref"]		# main (in staging)
 		print(action + ": " + from_branch + " -> " + to_branch)
 
-def run(server_class=HTTPServer, handler_class=S, addr="localhost", port=USEDPORT):
+def run(server_class=HTTPServer, handler_class=S, addr="0.0.0.0", port=USEDPORT):
+	print("we are running")
 	server_address = (addr, port)
 	httpd = server_class(server_address, handler_class)
 
@@ -31,12 +43,12 @@ def run(server_class=HTTPServer, handler_class=S, addr="localhost", port=USEDPOR
 
 
 if __name__ == "__main__":
-
+	print("hey there")
 	parser = argparse.ArgumentParser(description="Run a simple HTTP server")
 	parser.add_argument(
 		"-l",
 		"--listen",
-		default="localhost",
+		default="0.0.0.0",
 		help="Specify the IP address on which the server listens",
 	)
 	parser.add_argument(
